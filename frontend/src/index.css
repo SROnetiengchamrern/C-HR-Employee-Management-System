@@ -496,6 +496,7 @@ p {
 .page-head {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
   margin-bottom: 14px;
@@ -514,7 +515,8 @@ p {
   background: #fff;
   border: 1px solid #edf2f7;
   border-radius: 16px;
-  overflow: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .table {
   margin: 0;
@@ -872,6 +874,11 @@ p {
 .backdrop {
   display: none;
 }
+.dash-top > *,
+.dash-bottom > *,
+.stat-grid > * { min-width: 0; }
+.chart-scroll { max-width: 100%; overflow-x: auto; }
+
 @media (max-width: 1100px) {
   .stat-grid,
   .dash-top,
@@ -900,4 +907,28 @@ p {
     z-index: 15;
     border: 0;
   }
+  .content { padding: 16px 14px 32px; }
+  .topbar { height: auto; min-height: 58px; padding: 10px 12px; gap: 8px; }
+  .topbar h1 { font-size: 17px; line-height: 1.2; }
+  .who .btn { white-space: nowrap; }
+  .login-hero { padding: 36px 22px; }
+  .login-hero h1 { font-size: 34px; }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 700px) {
+  .who .text-end { display: none; }
+  .filters { width: 100%; }
+  .filters .form-control,
+  .filters .form-select { flex: 1 1 100%; min-width: 0; }
+  .page-head > .btn { width: 100%; }
+  .chart-scroll .chart-box { min-width: 560px; }
+  .data-grid .dt-search input { min-width: 0; width: 100%; }
+  .btn-group { flex-wrap: wrap; }
+  .entry-form .col-md-1,
+  .entry-form .col-md-2,
+  .entry-form .col-md-3 { width: 100%; }
 }

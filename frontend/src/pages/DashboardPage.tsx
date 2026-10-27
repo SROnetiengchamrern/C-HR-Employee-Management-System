@@ -91,7 +91,7 @@ export function DashboardPage() {
               ))}
             </div>
           ) : (
-            <div className="chart-box">
+            <div className="chart-scroll"><div className="chart-box">
               <Bar
                 data={{
                   labels: data.departments.map((department) => department.code),
@@ -113,7 +113,7 @@ export function DashboardPage() {
                   }
                 }}
               />
-            </div>
+            </div></div>
           )}
           <p className="chart-note">Click departments for details</p>
         </article>

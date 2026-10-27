@@ -20,3 +20,49 @@ Manager@123456
 Employee
 employee@corehr.lk
 Employee@123456
+
+
+
+Doker runing
+
+docker compose ps
+docker ps
+docker compose logs
+docker compose logs -f api
+docker compose logs -f web
+docker compose logs -f sqlserver
+
+Stop and start again
+docker compose stop
+docker compose start
+docker compose restart
+
+Stop and remove the containers
+docker compose down
+
+The database volume stays, so the seeded data is still there the next time you start.
+docker compose down -v
+
+Rebuild after code changes
+docker compose up --build -d
+
+
+The stack is running again. Use this command when the containers are missing:
+docker compose up -d
+
+
+On the other computer, install Docker Desktop, copy this project folder, and open a terminal in that folder. These are the commands, in the order you need them.
+docker compose up --build -d
+docker compose ps
+docker compose logs -f
+docker compose logs -f api
+docker compose logs -f web
+docker compose logs -f sqlserver
+docker compose stop
+docker compose start
+
+docker compose start failed earlier because the containers had been removed. If you see has no container to start, create them again:
+docker compose up -d
+docker compose up --build -d
+docker compose down
+docker compose down -v
