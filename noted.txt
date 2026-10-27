@@ -1,0 +1,22 @@
+open a terminal in the project folder, and run:
+
+docker compose up --build
+
+dotnet run --project src/HrEmployeeManagementSystem.Api --launch-profile http
+
+cd frontend
+npm install
+npm run dev
+
+Admin
+amila@corehr.lk
+Admin@123456
+HR
+hr@corehr.lk
+Hr@123456
+Manager
+manager@corehr.lk
+Manager@123456
+Employee
+employee@corehr.lk
+Employee@123456
