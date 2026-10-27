@@ -1,0 +1,33 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Hr_System_Passw0rd!"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  api:
+    build:
+      context: ./src/HrEmployeeManagementSystem.Api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=HrEmployeeManagementSystem;User Id=sa;Password=Hr_System_Passw0rd!;MultipleActiveResultSets=true;TrustServerCertificate=True"
+      Jwt__Key: "HrEmployeeManagementSystem-dev-signing-key-change-in-production-32bytes-min"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+
+  web:
+    build:
+      context: ./frontend
+    ports:
+      - "8088:80"
+    depends_on:
+      - api
+
+volumes:
+  sqlserver-data:
