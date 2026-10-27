@@ -1,5 +1,5 @@
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useAuth } from "../auth";
 import { initials } from "../lib/format";
 
@@ -39,9 +39,18 @@ export function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [reportsOpen, setReportsOpen] = useState(location.pathname.startsWith("/reports"));
-  const [orgOpen, setOrgOpen] = useState(location.pathname.startsWith("/organization"));
+  const onReports = location.pathname.startsWith("/reports");
+  const onOrganization = location.pathname.startsWith("/organization");
+  const reportTab = new URLSearchParams(location.search).get("tab") || "headcount";
+  const onPositions = location.hash === "#positions";
+  const [reportsOpen, setReportsOpen] = useState(onReports);
+  const [orgOpen, setOrgOpen] = useState(onOrganization);
   const title = location.pathname === "/" && !isAdmin ? "Dashboard" : titles[location.pathname] ?? "CoreHR";
+
+  useEffect(() => {
+    if (onReports) setReportsOpen(true);
+    if (onOrganization) setOrgOpen(true);
+  }, [onReports, onOrganization]);
 
   return (
     <div className="app-shell">
@@ -54,23 +63,35 @@ export function Layout() {
             <i className={`bi bi-${link.icon}`} /> {link.label}
           </NavLink>
         ))}
-        <button className="side-group" onClick={() => setReportsOpen((value) => !value)}>
+        <button className={onReports ? "side-group active" : "side-group"} onClick={() => setReportsOpen((value) => !value)}>
           <i className="bi bi-bar-chart" /> Reports <i className={`bi bi-chevron-${reportsOpen ? "up" : "down"} chevron`} />
         </button>
         {reportsOpen && (
           <div className="subnav">
-            <NavLink to="/reports?tab=headcount" onClick={() => setOpen(false)}>Headcount</NavLink>
-            <NavLink to="/reports?tab=attendance" onClick={() => setOpen(false)}>Attendance</NavLink>
-            <NavLink to="/reports?tab=leave" onClick={() => setOpen(false)}>Leave</NavLink>
+            {([
+              ["headcount", "Headcount"],
+              ["attendance", "Attendance"],
+              ["leave", "Leave"]
+            ] as const).map(([tab, label]) => (
+              <Link
+                key={tab}
+                to={`/reports?tab=${tab}`}
+                className={onReports && reportTab === tab ? "active" : undefined}
+                aria-current={onReports && reportTab === tab ? "page" : undefined}
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
         )}
-        <button className="side-group" onClick={() => setOrgOpen((value) => !value)}>
+        <button className={onOrganization ? "side-group active" : "side-group"} onClick={() => setOrgOpen((value) => !value)}>
           <i className="bi bi-diagram-3" /> Organization <i className={`bi bi-chevron-${orgOpen ? "up" : "down"} chevron`} />
         </button>
         {orgOpen && (
           <div className="subnav">
-            <NavLink to="/organization" onClick={() => setOpen(false)}>Departments</NavLink>
-            <NavLink to="/organization#positions" onClick={() => setOpen(false)}>Positions</NavLink>
+            <Link to="/organization" className={onOrganization && !onPositions ? "active" : undefined} aria-current={onOrganization && !onPositions ? "page" : undefined} onClick={() => setOpen(false)}>Departments</Link>
+            <Link to="/organization#positions" className={onOrganization && onPositions ? "active" : undefined} aria-current={onOrganization && onPositions ? "page" : undefined} onClick={() => setOpen(false)}>Positions</Link>
           </div>
         )}
         {isAdmin && (

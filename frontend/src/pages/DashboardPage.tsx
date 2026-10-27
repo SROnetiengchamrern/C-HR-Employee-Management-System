@@ -95,7 +95,7 @@ export function DashboardPage() {
               <Bar
                 data={{
                   labels: data.departments.map((department) => department.code),
-                  datasets: [{ data: data.departments.map((department) => department.count), backgroundColor: "#5b8def", borderRadius: 6, maxBarThickness: 28 }]
+                  datasets: [{ data: data.departments.map((department) => department.count), backgroundColor: "#3b82f6", hoverBackgroundColor: "#2f6fed", borderRadius: 6, maxBarThickness: 26 }]
                 }}
                 options={{
                   responsive: true,
@@ -148,7 +148,7 @@ export function DashboardPage() {
             <Bar
               data={{
                 labels: monthLabels,
-                datasets: [{ data: data.birthdayDistribution, backgroundColor: "#f5b14a", borderRadius: 4, maxBarThickness: 18 }]
+                datasets: [{ data: data.birthdayDistribution, backgroundColor: "#f5a524", borderRadius: 5, maxBarThickness: 16 }]
               }}
               options={{
                 responsive: true,
@@ -177,7 +177,7 @@ export function DashboardPage() {
               <span>{leave.days}d</span>
             </div>
           ))}
-          <Link to="/leave">View All Requests →</Link>
+          <Link className="panel-link" to="/leave">View all requests →</Link>
         </article>
         <article className="panel">
           <div className="panel-head">
@@ -192,8 +192,8 @@ export function DashboardPage() {
                 labels: monthLabels,
                 datasets: [{
                   data: data.newHires.map((item) => item.count),
-                  borderColor: "#7c6cf0",
-                  backgroundColor: "rgba(124,108,240,.15)",
+                  borderColor: "#7b61ff",
+                  backgroundColor: "rgba(123, 97, 255, .16)",
                   fill: true,
                   tension: 0.35,
                   pointRadius: 3
